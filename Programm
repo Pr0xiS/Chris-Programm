@@ -1,0 +1,200 @@
+// Autor: Maximilian Zerbe
+// Fertiggestellt: 30.09.2015
+// Sprites aus: Binding of Isaac Rebirth
+//  -> Editiert von mir via Gimp
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Random;
+
+//***************************************************************
+//                    CLASS RAD
+//***************************************************************
+public class Rad extends JFrame implements ActionListener{
+  //***********************
+  // INSTANZVARIABLEN
+  //***********************
+  Random rnd = new Random();
+  int random; 
+  
+  //Labels erschaffen
+  JLabel hintergrund;
+  
+  //Buttons erschaffen
+  JButton start = new JButton("Roll!");
+  JButton eins = new JButton("Teaching Hour!");
+  JButton zwei = new JButton("300 Salties!");
+  JButton drei = new JButton("Keks!");
+  JButton vier = new JButton("300 Salties!");
+  
+  
+  
+  //***************************************************************************
+  //                     K O N S T R U K T O R
+  //***************************************************************************
+  public Rad(){
+    setTitle("Wheel of Fortune"); //Titel festlegen
+    setLayout(null); //Layoutmanager ausschalten
+    
+    //Images erstellen
+    Image hintergrundSprite = Toolkit.getDefaultToolkit().createImage("hintergrund.jpg");
+    
+    //Images in die Label einfügen
+    hintergrund = new JLabel(new ImageIcon(hintergrundSprite));
+    
+    //Zum Panel adden
+    this.add(start);
+    this.add(eins);
+    this.add(zwei);
+    this.add(drei);
+    this.add(vier);
+    this.add(hintergrund);
+    
+    
+    //Position, Größe einsetzen 
+    hintergrund.setSize(800, 500);
+    start.setBounds(350, 200, 100, 50);
+    eins.setBounds(350, 100, 100, 50);
+    zwei.setBounds(240, 170, 100, 50);
+    drei.setBounds(350, 170, 100, 50);
+    vier.setBounds(460, 170, 100, 50);
+    
+    //Buttons setzen
+    start.setActionCommand("start");
+    eins.setActionCommand("eins");
+    zwei.setActionCommand("zwei");
+    drei.setActionCommand("drei");
+    vier.setActionCommand("vier");
+    
+    //Buttons registrieren
+    start.addActionListener(this);
+    eins.addActionListener(this);
+    zwei.addActionListener(this);
+    drei.addActionListener(this);
+    vier.addActionListener(this);
+    
+    //Buttons deaktivieren
+    eins.setVisible(false);
+    zwei.setVisible(false);
+    drei.setVisible(false);
+    vier.setVisible(false);
+    
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//X = Schließen
+  }
+  
+  
+  
+  //***************************************************************************
+  //                      A C T I O N P E R F O R M E D
+  //***************************************************************************
+  public void actionPerformed(ActionEvent evt){
+    
+    if (evt.getActionCommand().equals("start")) {
+      auswahl();
+    } // end of if
+    
+    // ALLES REPAINTEN
+    //repaint();
+  }
+  
+  
+  
+  //***************************************************************************
+  //                        H A U P T K L A S S E 
+  //***************************************************************************
+  public void auswahl(){
+    //hintergrund.setSize(0, 0);
+    start.setVisible(false);
+    eins.setVisible(true); //1-25
+    zwei.setVisible(true); //26-50
+    drei.setVisible(true); //51-75
+    vier.setVisible(true); //76-100
+    
+    repaint();
+    random = rnd.nextInt(100);
+    
+    if (random >= 1 && random <= 25) {
+      gruen(eins);
+      gruen(drei);
+      repaint();
+      
+      pause(10000);
+      
+      weiss(eins);
+      weiss(drei);
+      repaint();
+    } // end of if
+    else if(random>=26 && random <=50){
+      gruen(zwei);
+      repaint();
+      
+      pause(10000);
+      
+      weiss(zwei);
+      repaint();
+    } // end of if-else
+    else if(random>=51 && random <=75){
+      gruen(eins);
+      gruen(drei);
+      repaint();
+      
+      pause(10000);
+      
+      weiss(eins);
+      repaint();
+    }
+    else if(random>=76 && random <=100){
+      gruen(vier);
+      repaint();
+      
+      pause(10000);
+      
+      weiss(vier);
+      repaint();
+    }
+  }
+  
+  
+  
+  //***************************************************************************
+  //                               G R Ü N 
+  //***************************************************************************
+  public void gruen(JButton green){
+    green.setBackground(Color.green);  //GRÜN
+  }
+  //***************************************************************************
+  //                               W E I ß
+  //***************************************************************************
+  public void weiss(JButton white){
+    white.setBackground(Color.white);  //WEIß
+  }
+  
+  
+  
+  //***************************************************************************
+  //                              P A U S E
+  //***************************************************************************
+  public void pause (int millis){
+    try{
+      Thread.sleep(millis);
+    }catch (Exception ignore){}
+  }
+    //***************************************************************************
+    //                               M A I N
+    //***************************************************************************
+  public static void main(String[] args){
+      
+      //OBJEKT ERZEUGEN
+      Rad wheel = new Rad();
+      
+      //FRAME GRÖßE UND POSITION SETZEN
+      wheel.setBounds(250, 100, 800, 500);
+      
+      //NICHT BEWEGBAR
+      wheel.setResizable(false);
+      
+      //ANZEIGBAR
+      wheel.setVisible(true);
+  }
+  }
